@@ -32,7 +32,7 @@ frequency = note_freqs['C4']
 
 # Pure sine wave
 sine_wave = get_sine_wave(frequency, duration=2, amplitude=2048)
-wavfile.write('pure_c.wav', rate=44100, data=sine_wave.astype(np.int16))
+wavfile.write('ChordAudioFiles/C_Major.wav', rate=44100, data=sine_wave.astype(np.int16))
 
 # Load data from wav file
 sample_rate, middle_c = wavfile.read('ChordAudioFiles/C_Major.wav')
