@@ -9,21 +9,19 @@ import matplotlib.pyplot as plt
 plt.style.use('seaborn-v0_8')
 
 # Load data from G Major Chord wav file
-Fs, gmajor = wavfile.read('Chord Extraction/gmajor.wav')
-single_gmajor = gmajor[:,1]; # Single channel
-
-# N = len(single_gmajor); # Number of points on the FFT
+Fs, fullprogression = wavfile.read('Chord Extraction/fullprogression.wav')
+single_fullprogression = fullprogression[:,1]; # Single channel
 
 #FFT
-N = np.arange(single_gmajor.shape[0])   # Number of points on the FFT
-freq = np.fft.fftfreq(N.shape[-1])*Fs   # Frequency
-G = np.fft.fft(single_gmajor)           # FFT of G Major chord
+N = np.arange(single_fullprogression.shape[0])    # Number of points on the FFT
+freq = np.fft.fftfreq(N.shape[-1])*Fs             # Frequency
+FP = np.fft.fft(single_fullprogression)           # FFT of G Major chord
 
 # Plot spectrum
-plt.plot(freq, abs(G))
+plt.plot(freq, abs(FP))
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('Amplitude')
-plt.title('FFT of G Major Chord')
+plt.title('FFT of Chord Progression')
 plt.xlim((0, 2000))
 plt.grid()
 # %%
