@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 
 plt.style.use('seaborn-v0_8')
 
-# Load data from G Major Chord wav file
+# Load data from chord progression
 Fs, fullprogression = wavfile.read('Chord Extraction/fullprogression.wav')
 single_fullprogression = fullprogression[:,1] # Single channel
-split_signal = np.split(single_fullprogression,5)
+split_signal = np.split(single_fullprogression,5) # Split 
 #split_signal[0] --> C major chord hopefully
 #split_signal[1] --> F major chord hoepfully .....
 duration_of_signal = len(split_signal[1])
