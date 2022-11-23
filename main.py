@@ -4,6 +4,8 @@
 
 import numpy as np
 from scipy.io import wavfile
+from scipy.fft import fft
+from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
 
 plt.style.use('seaborn-v0_8')
@@ -14,7 +16,7 @@ single_fullprogression = fullprogression[:,1] # Single channel
 split_signal = np.split(single_fullprogression,5)
 #split_signal[0] --> C major chord hopefully
 #split_signal[1] --> F major chord hoepfully .....
-duration_of_signal= len(split_signal[1])
+duration_of_signal = len(split_signal[1])
 print("length of signal: ")
 print(duration_of_signal)
 
@@ -22,6 +24,10 @@ print(duration_of_signal)
 N = np.arange(split_signal[1].shape[0])    # Number of points on the FFT
 freq = np.fft.fftfreq(N.shape[-1])*Fs             # Frequency
 FP = np.fft.fft(split_signal[1])           # FFT of G Major chord
+
+peaks = find_peaks(abs(FP.real))
+peaks_sorted = np.sort(peaks)
+print(peaks_sorted)
 
 # Plot spectrum
 plt.plot(freq, abs(FP))
