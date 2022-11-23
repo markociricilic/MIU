@@ -10,22 +10,17 @@ plt.style.use('seaborn-v0_8')
 
 # Load data from G Major Chord wav file
 Fs, gmajor = wavfile.read('Chord Extraction/gmajor.wav')
+single_gmajor = gmajor[:,1]; # Single channel
 
-#
-single_gmajor = gmajor(:,1); # Single channel
-
-N = length(single_gmajor); % Number of points on the FFT
-f = (0:(N-1))*(Fs/N); % Frequency
-X = fft(single_gmajor); % FFT of G Major chord
-#
+# N = len(single_gmajor); # Number of points on the FFT
 
 #FFT
-t = np.arange(gmajor.shape[0])
-freq = np.fft.fftfreq(t.shape[-1])*Fs
-sp = np.fft.fft(gmajor) 
+N = np.arange(single_gmajor.shape[0])   # Number of points on the FFT
+freq = np.fft.fftfreq(N.shape[-1])*Fs   # Frequency
+G = np.fft.fft(single_gmajor)           # FFT of G Major chord
 
 # Plot spectrum
-plt.plot(freq, abs(sp))
+plt.plot(freq, abs(G))
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('Amplitude')
 plt.title('FFT of G Major Chord')
