@@ -8,26 +8,74 @@ import matplotlib.pyplot as plt
 
 plt.style.use('seaborn-v0_8')
 
-# Load data from wav file
-sample_rate, middle_c = wavfile.read('Chord Extraction/cmajor.wav')
+# Load data from G Major Chord wav file
+Fs, gmajor = wavfile.read('Chord Extraction/gmajor.wav')
+
+#
+single_gmajor = gmajor(:,1); # Single channel
+
+N = length(single_gmajor); % Number of points on the FFT
+f = (0:(N-1))*(Fs/N); % Frequency
+X = fft(single_gmajor); % FFT of G Major chord
+#
 
 #FFT
-t = np.arange(middle_c.shape[0])
-freq = np.fft.fftfreq(t.shape[-1])*sample_rate
-sp = np.fft.fft(middle_c) 
-
-# Plot sound wave
-plt.plot(middle_c[500:2500])
-plt.xlabel('Time')
-plt.ylabel('Amplitude')
-plt.title('Sound Wave of C Major on Piano')
-plt.grid()
+t = np.arange(gmajor.shape[0])
+freq = np.fft.fftfreq(t.shape[-1])*Fs
+sp = np.fft.fft(gmajor) 
 
 # Plot spectrum
-plt.plot(freq, abs(sp.real))
+plt.plot(freq, abs(sp))
 plt.xlabel('Frequency (Hz)')
 plt.ylabel('Amplitude')
-plt.title('Spectrum of MC Major Recording on Piano')
+plt.title('FFT of G Major Chord')
 plt.xlim((0, 2000))
 plt.grid()
 # %%
+
+""""
+% F Major Chord
+[fmajor, Fs] = audioread("fmajor.wav");
+single_fmajor = fmajor(:,1); % Single channel
+
+N = length(single_fmajor); % Number of points on the FFT
+f = (0:(N-1))*(Fs/N); % Frequency
+X = fft(single_fmajor); % FFT of G Major chord
+
+figure
+plot(f, abs(X));
+xlim([0 2000])
+title("FFT of F Major Chord")
+xlabel("Frequency (Hz)")
+ylabel("real(fft(fmajor))")
+
+% D Minor Chord
+[dminor, Fs] = audioread("dminor.wav");
+single_dminor = dminor(:,1); % Single channel
+
+N = length(single_dminor); % Number of points on the FFT
+f = (0:(N-1))*(Fs/N); % Frequency
+X = fft(single_dminor); % FFT of G Major chord
+
+figure
+plot(f, abs(X));
+xlim([0 2000])
+title("FFT of D Minor Chord")
+xlabel("Frequency (Hz)")
+ylabel("real(fft(dminor))")
+
+% C Major Chord
+[cmajor, Fs] = audioread("cmajor.wav");
+single_cmajor = cmajor(:,1); % Single channel
+
+N = length(single_cmajor); % Number of points on the FFT
+f = (0:(N-1))*(Fs/N); % Frequency
+X = fft(single_cmajor); % FFT of G Major chord
+
+figure
+plot(f, abs(X));
+xlim([0 2000])
+title("FFT of C Major Chord")
+xlabel("Frequency (Hz)")
+ylabel("real(fft(cmajor))")
+"""
