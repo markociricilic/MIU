@@ -23,6 +23,7 @@ frequency_matrix= np.zeros([specified_sub_divisions,notes_distribution_constant]
 #split audio signal into numsof subdivisions equal lengths for short time FFT
 split_signals = np.split(single_fullprogression,specified_sub_divisions) #split_signal[0] --> C major chord hopefully
 
+print("length")
 #for loop routine for populating frequency_matrix
 for i in range(10):
     #FFT generation
@@ -32,14 +33,15 @@ for i in range(10):
     
     #Dominant frequencies
     dom_freq = freq[np.argsort(abs(FP))]
-    n=100
-    top_ten_freq= dom_freq[-n : ]
+    top_ten_freq= dom_freq[-notes_distribution_constant : ]
 
     #store dominant frequencies in frequency_matrix
     for j in range(100):
         frequency_matrix[i][j]=top_ten_freq[j]
 
+print("frequency matrix: ", frequency_matrix)
 #now we can start thinking about how to generate melody given the frequency_matrix .......
+
 
 
 """""
