@@ -31,7 +31,6 @@ segment_time = fullprogression_time/specified_sub_divisions
 floor_total_time = math.floor(segment_time)
 dummy_note_time = math.ceil(10*(segment_time - floor_total_time))/10
 print("full progression vector length: ", len(single_fullprogression))
-print("split segment vector length: ", len(split_signals[0]))
 print("full progression time in seconds: ",len(single_fullprogression)*(1/Fs))
 print("segment_time in seconds: ", segment_time)
 print("math floor function result", math.floor(segment_time))
@@ -59,7 +58,7 @@ print("length of wave: ", len(wave))
 plt.plot(t_eighth,wave)
 plt.xlim([0 ,0.1])
 
-print("main_melody_matrix length", len(main_melody_matrix))
+print("main_melody_matrix length", len(main_melody_vector))
 
 #split audio signal into numsof subdivisions equal lengths for short time FFT
 split_signals = np.split(single_fullprogression,specified_sub_divisions) #split_signal[0] --> C major chord hopefully
