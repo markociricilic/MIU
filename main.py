@@ -9,7 +9,6 @@ import random
 import math
 import matplotlib.pyplot as plt
 
-# np.set_printoptions(threshold=np.inf)
 #pure_tone generator
 def pure_tone_generator(frequency, duration, sample_rate=44100, amplitude=4096):
     if frequency>=1000:
