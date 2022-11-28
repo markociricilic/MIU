@@ -8,6 +8,7 @@ from scipy.signal import find_peaks
 import random
 import math
 import matplotlib.pyplot as plt
+from pydub import AudioSegment
 
 #pure_tone generator
 def pure_tone_generator(frequency, duration, sample_rate = 44100, amplitude = 4096):
@@ -171,4 +172,13 @@ plt.xlim([0,1])
 
 complete = main_melody_vector
 wavfile.write("test.wav",Fs,complete)
+
+# combining the two .wav files
+sound1 = AudioSegment.from_file("test.wav")
+sound2 = AudioSegment.from_file("fullprogression.wav")
+final = sound1.overlay(sound2)
+
+# exporting the final audio file
+MIU_final = AudioSegment.from_file("/path/to/final.wav", format="wav")
+file_handle = MIU_final.export("/path/to/MIU.wav", format="wav")
 # %%
