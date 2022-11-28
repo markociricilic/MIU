@@ -173,9 +173,6 @@ complete = main_melody_vector
 wavfile.write("test.wav",Fs,complete)
 
 # Concatenate two 
-single_fullprogression 
-complete
- 
 generated = single_fullprogression + complete
 wavfile.write("randomized.wav", Fs, generated)
 
