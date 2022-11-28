@@ -10,9 +10,9 @@ import math
 import matplotlib.pyplot as plt
 
 #pure_tone generator
-def pure_tone_generator(frequency, duration, sample_rate=44100, amplitude=4096):
-    if frequency>=1000:
-        amplitude=0
+def pure_tone_generator(frequency, duration, sample_rate = 44100, amplitude = 4096):
+    if frequency >= 1000:
+        amplitude = 0
     t = np.linspace(0, duration, int(sample_rate*duration)) # Time axis
     wave = amplitude*np.sin(2*np.pi*frequency*t)
     return wave
@@ -34,9 +34,9 @@ plt.style.use('seaborn-v0_8')
 Fs, fullprogression = wavfile.read('Chord Extraction/fullprogression.wav')
 single_fullprogression = fullprogression[:,1] # Single channel
 
-t_full= np.arange(0,24,1/44100)
+t_full = np.arange(0,24,1/44100)
 
-specified_sub_divisions= 20 #how many sections to split fullprogression
+specified_sub_divisions = 20 #how many sections to split fullprogression
 notes_distribution_constant = 100 #how many peak frequencies to extract and put into frequency matrix per segment
 
 fullprogression_time = len(single_fullprogression)*(1/Fs)
@@ -44,19 +44,20 @@ segment_time = fullprogression_time/specified_sub_divisions
 floor_total_time = math.floor(segment_time)
 dummy_note_time = math.ceil(10*(segment_time - floor_total_time))/10
 print("full progression vector length: ", len(single_fullprogression))
-print("full progression time in seconds: ",len(single_fullprogression)*(1/Fs))
+print("full progression time in seconds: ", len(single_fullprogression)*(1/Fs))
 print("segment_time in seconds: ", segment_time)
 print("math floor function result", math.floor(segment_time))
 print("dummy note time: ", dummy_note_time)
 
 
-frequency_matrix= np.zeros([specified_sub_divisions,notes_distribution_constant],dtype=int)#top 100 dominant frequencies from each segment is contained in this frequency matrix. 
+frequency_matrix = np.zeros([specified_sub_divisions,notes_distribution_constant],dtype=int)#top 100 dominant frequencies from each segment is contained in this frequency matrix. 
 #frequency_matrix[0] --> accesses first segment dominant frequencies
 
 #main_melody_vector definition
 main_melody_vector = np.zeros([len(single_fullprogression)])
-notes_duration_vector = [0.25, 0.5, 1.0] #notes_duration_vector[2] is quarter note time 
+notes_duration_vector = [0.25,0.5,1.0] #notes_duration_vector[2] is quarter note time 
 t_quarter = np.arange(0,1,1/44100)
+
 #print("quarter time vector: ",t_quarter)
 print("length of quarter vector", len(t_quarter))
 t_eighth = np.arange(0,0.5,1/44100)
@@ -86,45 +87,47 @@ for i in range(specified_sub_divisions):
     
     #Dominant frequencies
     dom_freq = freq[np.argsort(abs(FP))]
-    top_ten_freq= dom_freq[-notes_distribution_constant : ]
+    top_ten_freq = dom_freq[-notes_distribution_constant : ]
 
     #store dominant frequencies in frequency_matrix
     for j in range(100):
-        frequency_matrix[i][j]=top_ten_freq[j]
+        frequency_matrix[i][j] = top_ten_freq[j]
 
 #print("frequency matrix: ", frequency_matrix)
 
+###################################################################################
+# Melody Generation Routine
+# 1. random seeds
+# 2. while loop logic
+# 3. appending sub melody vector to main vector
+###################################################################################
 
-#Melody Generation Routine
-#1. random seeds
-#2. while loop logic
-#3. appending sub melody vector to main vector
 t_sub = np.arange(0,2.4,1/44100)
 
 for i in range(specified_sub_divisions):
     sub_melody_vector_length = len(split_signals[i])
     sub_melody_vector = np.zeros(sub_melody_vector_length)
     #dummy note zero padding
-    sub_melody_vector_length-=dummy_note_time*Fs
+    sub_melody_vector_length -= dummy_note_time*Fs
     index_for_appending = dummy_note_time*Fs
 
-    while sub_melody_vector_length>0:
+    while sub_melody_vector_length > 0:
         #generate number from 0 to 2 for random note duration
-        if sub_melody_vector_length>=len(t_quarter):
+        if sub_melody_vector_length >= len(t_quarter):
             #generate number from 0 to 2 for random note duration
             random_duration_index = random.randint(0,2)
             random_frequency_index = random.randint(0,99)
             random_wave = pure_tone_generator(frequency_matrix[i][random_frequency_index],notes_duration_vector[random_duration_index],Fs,1)
              #appending 
-            range_num= len(random_wave)
+            range_num = len(random_wave)
             for j in range(range_num):
-                index= j+index_for_appending
+                index = j+index_for_appending
                 sub_melody_vector[int(index)] = random_wave[j]
 
             index_for_appending += range_num
-            sub_melody_vector_length-=range_num
+            sub_melody_vector_length -= range_num
             
-        elif sub_melody_vector_length>=len(t_eighth):
+        elif sub_melody_vector_length >= len(t_eighth):
             #generate number from 0 to 1 for duration
 
             random_duration_index = random.randint(0,1)
@@ -132,40 +135,40 @@ for i in range(specified_sub_divisions):
             random_wave = pure_tone_generator(frequency_matrix[i][random_frequency_index],notes_duration_vector[random_duration_index],Fs,1)
             
             #appending 
-            range_num= len(random_wave)
+            range_num = len(random_wave)
             for j in range(range_num):
-                index= j+index_for_appending
+                index = j+index_for_appending
                 sub_melody_vector[int(index)] = random_wave[j]
 
             index_for_appending += range_num
-            sub_melody_vector_length-=range_num
+            sub_melody_vector_length -= range_num
         else:
             random_frequency_index = random.randint(0,99)
             #use sixteenth note duration
             random_wave = pure_tone_generator(frequency_matrix[i][random_frequency_index],notes_duration_vector[0],Fs,1)
             
-           #appending 
+            #appending 
             range_num= len(random_wave)
             for j in range(range_num):
-                index= j+index_for_appending
+                index = j+index_for_appending
                 sub_melody_vector[int(index)] = random_wave[j]
 
             index_for_appending += range_num 
-            sub_melody_vector_length-=range_num
+            sub_melody_vector_length -= range_num
 
     print(sub_melody_vector)
     #insert sub_melody_vector into main_melody_vector 
-    beginning_index= len(sub_melody_vector)*i 
+    beginning_index = len(sub_melody_vector)*i 
     for k in range(len(sub_melody_vector)):
-        index= k + beginning_index
+        index = k + beginning_index
         main_melody_vector[int(index)] = sub_melody_vector[k]
 
-    print("main: ",main_melody_vector)
+    print("main: ", main_melody_vector)
 
 
 plt.plot(t_full,main_melody_vector)
 plt.xlim([0,1])
 
-complete=main_melody_vector
+complete = main_melody_vector
 wavfile.write("test.wav",Fs,complete)
 # %%
