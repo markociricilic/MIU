@@ -166,7 +166,6 @@ for i in range(specified_sub_divisions):
 
     print("main: ", main_melody_vector)
 
-
 plt.plot(t_full,main_melody_vector)
 plt.xlim([0,1])
 
