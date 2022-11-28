@@ -175,7 +175,7 @@ wavfile.write("test.wav",Fs,complete)
 # combining the two .wav files
 sound1 = AudioSegment.from_file("test.wav")
 sound2 = AudioSegment.from_file("fullprogression.wav")
-
 MIU_final = sound1.overlay(sound2)
-wavfile.write("MIU.wav",Fs,MIU_final)
+
+file_handle = MIU_final.export("/path/to/MIU.wav", format="wav")
 # %%
