@@ -167,13 +167,13 @@ for i in range(specified_sub_divisions):
 
 # plt.plot(t_full,main_melody_vector)
 # plt.xlim([0,24])
-normalize_factor= np.max(np.abs(single_fullprogression),axis=0)
+normalize_factor = np.max(np.abs(single_fullprogression),axis = 0)
 normalized_single_fullprogression = single_fullprogression/normalize_factor
 plt.plot(t_full,normalized_single_fullprogression)
 
 complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression # Reducing amplitude of summed vectors
 
-wavfile.write("test1.wav", Fs, complete)
+wavfile.write("test.wav", Fs, complete)
 plt.plot(t_full, complete)
 
 # %%
