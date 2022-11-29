@@ -166,16 +166,17 @@ for i in range(specified_sub_divisions):
 
     print("main: ", main_melody_vector)
 
-plt.plot(t_full,main_melody_vector)
-plt.xlim([0,1])
 
-complete = main_melody_vector
-wavfile.write("test.wav",Fs,complete)
+# plt.plot(t_full,main_melody_vector)
+# plt.xlim([0,24])
+normalize_factor= np.max(np.abs(single_fullprogression),axis=0)
+normalized_single_fullprogression = single_fullprogression/normalize_factor
+plt.plot(t_full,normalized_single_fullprogression)
 
-# combining the two .wav files
-sound1 = AudioSegment.from_file("test.wav")
-sound2 = AudioSegment.from_file("fullprogression.wav")
-MIU_final = sound1.overlay(sound2)
+complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression
 
-file_handle = MIU_final.export("/path/to/MIU.wav", format="wav")
+wavfile.write("test1.wav", Fs, complete)
+
+plt.plot(t_full, complete)
+
 # %%
