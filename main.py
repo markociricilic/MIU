@@ -171,7 +171,6 @@ normalized_single_fullprogression = single_fullprogression/normalize_factor
 #plt.plot(t_full,normalized_single_fullprogression)
 
 complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression # Reducing amplitude of summed vectors
-
-wavfile.write(".wav", Fs, complete)
+wavfile.write("Test.wav", Fs, complete)
 #plt.plot(t_full, complete)
 # %%
