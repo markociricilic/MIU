@@ -2,13 +2,12 @@
 # Algorithm for melody extraction and playback
 import numpy as np
 from scipy.io import wavfile
-from scipy.fft import rfft, rfftfreq
+from scipy.fftpack import rfft, rfftfreq
 from scipy.fft import fft
 from scipy.signal import find_peaks
 import random
 import math
 import matplotlib.pyplot as plt
-from pydub import AudioSegment
 
 #pure_tone generator
 def pure_tone_generator(frequency, duration, sample_rate = 44100, amplitude = 4096):
@@ -29,7 +28,7 @@ def range_num_generator(random_duration_index):
     return int(range_num)
 
 #Style of plot for testing and debugging
-plt.style.use('seaborn-v0_8')
+#plt.style.use('seaborn-v0_8')
 
 # Load data from Full Progression wav file
 Fs, fullprogression = wavfile.read('Chord Extraction/fullprogression.wav')
@@ -70,7 +69,7 @@ print("length of eighth vector", len(t_sixteenth))
 
 wave= pure_tone_generator(440, notes_duration_vector[1],44100,1)
 print("length of wave: ", len(wave))
-plt.plot(t_eighth,wave)
+#plt.plot(t_eighth,wave)
 
 print("main_melody_matrix length", len(main_melody_vector))
 
@@ -169,11 +168,10 @@ for i in range(specified_sub_divisions):
 # plt.xlim([0,24])
 normalize_factor = np.max(np.abs(single_fullprogression),axis = 0)
 normalized_single_fullprogression = single_fullprogression/normalize_factor
-plt.plot(t_full,normalized_single_fullprogression)
+#plt.plot(t_full,normalized_single_fullprogression)
 
 complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression # Reducing amplitude of summed vectors
 
-wavfile.write("test1.wav", Fs, complete)
-plt.plot(t_full, complete)
-
+wavfile.write(".wav", Fs, complete)
+#plt.plot(t_full, complete)
 # %%
