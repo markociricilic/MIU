@@ -49,7 +49,6 @@ print("segment_time in seconds: ", segment_time)
 print("math floor function result", math.floor(segment_time))
 print("dummy note time: ", dummy_note_time)
 
-
 frequency_matrix = np.zeros([specified_sub_divisions,notes_distribution_constant],dtype=int)#top 100 dominant frequencies from each segment is contained in this frequency matrix. 
 #frequency_matrix[0] --> accesses first segment dominant frequencies
 
