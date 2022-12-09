@@ -9,6 +9,8 @@ import random
 import math
 import matplotlib.pyplot as plt
 
+
+
 #pure_tone generator
 def pure_tone_generator(frequency, duration, sample_rate = 44100, amplitude = 4096):
     if frequency >= 1000:
@@ -27,18 +29,23 @@ def range_num_generator(random_duration_index):
 
     return int(range_num)
 
-#Style of plot for testing and debugging
-#plt.style.use('seaborn-v0_8')
-
+inputchord = input("What chord progression are we using? Please give path and chord name: \n")
+##Chord Extraction/F minor.wav
 # Load data from Full Progression wav file
-Fs, fullprogression = wavfile.read('Chord Extraction/fullprogression.wav')
+Fs, fullprogression = wavfile.read(inputchord)
 single_fullprogression = fullprogression[:,1] # Single channel
 
 t_full = np.arange(0,24,1/44100)
 
-specified_sub_divisions = 20 #how many sections to split fullprogression
+specified_sub_divisions = 10 #how many sections to split fullprogression
 notes_distribution_constant = 100 #how many peak frequencies to extract and put into frequency matrix per segment
 
+#resize array to divisible size by specified_sub_divisions
+modulo = len(single_fullprogression) % specified_sub_divisions
+num_reduced=len(single_fullprogression)-modulo
+single_fullprogression = single_fullprogression[0:num_reduced]
+print("mod: ",modulo)
+print("resized progression length: ", len(single_fullprogression))
 fullprogression_time = len(single_fullprogression)*(1/Fs)
 segment_time = fullprogression_time/specified_sub_divisions
 floor_total_time = math.floor(segment_time)
@@ -142,18 +149,21 @@ for i in range(specified_sub_divisions):
             index_for_appending += range_num
             sub_melody_vector_length -= range_num
         else:
-            random_frequency_index = random.randint(0,99)
-            #use sixteenth note duration
-            random_wave = pure_tone_generator(frequency_matrix[i][random_frequency_index],notes_duration_vector[0],Fs,1)
-            
-            #appending 
-            range_num= len(random_wave)
-            for j in range(range_num):
-                index = j+index_for_appending
-                sub_melody_vector[int(index)] = random_wave[j]
+            if(sub_melody_vector_length>=len(t_sixteenth)):
+                random_frequency_index = random.randint(0,99)
+                #use sixteenth note duration
+                random_wave = pure_tone_generator(frequency_matrix[i][random_frequency_index],notes_duration_vector[0],Fs,1)
+                
+                #appending 
+                range_num= len(random_wave)
+                for j in range(range_num):
+                    index = j+index_for_appending
+                    sub_melody_vector[int(index)] = random_wave[j]
 
-            index_for_appending += range_num 
-            sub_melody_vector_length -= range_num
+                index_for_appending += range_num 
+                sub_melody_vector_length -= range_num
+            else:
+                sub_melody_vector_length -= sub_melody_vector_length
 
     print(sub_melody_vector)
     #insert sub_melody_vector into main_melody_vector 
@@ -169,7 +179,12 @@ normalize_factor = np.max(np.abs(single_fullprogression),axis = 0)
 normalized_single_fullprogression = single_fullprogression/normalize_factor
 #plt.plot(t_full,normalized_single_fullprogression)
 
-complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression # Reducing amplitude of summed vectors
-wavfile.write("Mugen.wav", Fs, complete)
+complete = 0.5* main_melody_vector + 0.5 * normalized_single_fullprogression
+
+filename = input("Name your song: \n")
+
+wavfile.write(filename, Fs, complete)
+
 #plt.plot(t_full, complete)
+
 # %%
