@@ -41,8 +41,7 @@ In terms of hardware, we used a **Raspberry Pi 3 Model B**. The process went as:
 4. Run MIU's algorithm
 5. Play resulting melody through the speaker
 
-
-
+![screenshot](readme_img/setup.png)
 Setup for MIU
 
 Since this was for a school project and we had limited time, some future steps we would take are to:
