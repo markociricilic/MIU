@@ -11,7 +11,7 @@ So, the big idea is that the user inputs a chord and MIU then processes it into 
 3. Sort audio data into specific segments
 4. Compute FFT and extract dominant frequencies of chord progressions for each segment
 
-![screenshot](readme_img/fft.png)
+![fft](readme_img/fft.png)
 FFT of C Major Chord
 
 5. Use frequencies from each segment to generate randomized melody 
@@ -41,7 +41,7 @@ In terms of hardware, we used a **Raspberry Pi 3 Model B**. The process went as:
 4. Run MIU's algorithm
 5. Play resulting melody through the speaker
 
-![screenshot](readme_img/setup.png)
+![setup](readme_img/setup.png)
 Setup for MIU
 
 Since this was for a school project and we had limited time, some future steps we would take are to:
@@ -53,6 +53,3 @@ Since this was for a school project and we had limited time, some future steps w
 5. 3-D print the exterior to make MIU a portable unit with a speaker
 
 For an overview of the project concept, details, and photos of the setup, please visit [Melody Improvisation Unit](https://markociricilic.com/projects/miu/).
-
-
-
