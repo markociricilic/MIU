@@ -11,6 +11,7 @@ So, the big idea is that the user inputs a chord and MIU then processes it into 
 3. Sort audio data into specific segments
 4. Compute FFT and extract dominant frequencies of chord progressions for each segment
 
+![screenshot](readme_img/fft.png)
 FFT of C Major Chord
 
 5. Use frequencies from each segment to generate randomized melody 
